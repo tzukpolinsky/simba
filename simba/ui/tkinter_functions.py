@@ -77,13 +77,13 @@ def form_validator_is_numeric(inStr, acttyp):
 
 class DropDownMenu(Frame):
     def __init__(
-        self,
-        parent=None,
-        dropdownLabel="",
-        choice_dict=None,
-        labelwidth="",
-        com=None,
-        **kw
+            self,
+            parent=None,
+            dropdownLabel="",
+            choice_dict=None,
+            labelwidth="",
+            com=None,
+            **kw
     ):
         Frame.__init__(self, master=parent, **kw)
         self.dropdownvar = StringVar()
@@ -108,18 +108,20 @@ class DropDownMenu(Frame):
 
 class FileSelect(Frame):
     def __init__(
-        self,
-        parent=None,
-        fileDescription="",
-        color=None,
-        title=None,
-        lblwidth=None,
-        **kw
+            self,
+            parent=None,
+            fileDescription="",
+            color=None,
+            title=None,
+            lblwidth=None,
+            file_types=[],
+            **kw
     ):
         self.title = title
         self.color = color if color is not None else "black"
         self.lblwidth = lblwidth if lblwidth is not None else 0
         self.parent = parent
+        self.file_types = file_types
         Frame.__init__(self, master=parent, **kw)
         browse_icon = ImageTk.PhotoImage(
             image=PIL.Image.open(MENU_ICONS["browse"]["icon_path"])
@@ -148,7 +150,7 @@ class FileSelect(Frame):
         self.filePath.set(Defaults.NO_FILE_SELECTED_TEXT.value)
 
     def setFilePath(self):
-        file_selected = askopenfilename(title=self.title, parent=self.parent)
+        file_selected = askopenfilename(title=self.title, parent=self.parent,filetypes=self.file_types)
         if file_selected:
             self.filePath.set(file_selected)
         else:
@@ -165,13 +167,13 @@ class FileSelect(Frame):
 
 class Entry_Box(Frame):
     def __init__(
-        self,
-        parent=None,
-        fileDescription="",
-        labelwidth="",
-        status=None,
-        validation=None,
-        **kw
+            self,
+            parent=None,
+            fileDescription="",
+            labelwidth="",
+            status=None,
+            validation=None,
+            **kw
     ):
         super(Entry_Box, self).__init__(master=parent)
         self.validation_methods = {
@@ -213,13 +215,13 @@ class Entry_Box(Frame):
 
 class FolderSelect(Frame):
     def __init__(
-        self,
-        parent=None,
-        folderDescription="",
-        color=None,
-        title=None,
-        lblwidth=None,
-        **kw
+            self,
+            parent=None,
+            folderDescription="",
+            color=None,
+            title=None,
+            lblwidth=None,
+            **kw
     ):
         self.title = title
         self.color = color if color is not None else "black"
@@ -314,7 +316,7 @@ def CreateToolTip(widget, text):
 
 
 def CreateLabelFrameWithIcon(
-    parent: Toplevel, header: str, icon_name: str, icon_link: str or None = None
+        parent: Toplevel, header: str, icon_name: str, icon_link: str or None = None
 ):
     icon = PIL.Image.open(MENU_ICONS[icon_name]["icon_path"])
     icon = ImageTk.PhotoImage(icon)
@@ -334,7 +336,7 @@ def callback(url):
 
 
 def create_scalebar(
-    parent: Frame, name: str, min: int, max: int, cmd: object or None = None
+        parent: Frame, name: str, min: int, max: int, cmd: object or None = None
 ):
     scale = Scale(
         parent,
